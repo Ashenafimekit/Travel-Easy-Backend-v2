@@ -7,9 +7,14 @@ import {
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { UserModule } from './user/user.module';
+import { BusModule } from './bus/bus.module';
+import { RoutesModule } from './routes/routes.module';
+import { TicketsModule } from './tickets/tickets.module';
+import { PassengersModule } from './passengers/passengers.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule],
+  imports: [PrismaModule, AuthModule, UserModule, BusModule, RoutesModule, TicketsModule, PassengersModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
