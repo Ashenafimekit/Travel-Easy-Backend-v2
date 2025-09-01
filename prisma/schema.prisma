@@ -1,19 +1,261 @@
-generator client {
-  provider = "prisma-client-js"
-}
+// schema.prisma
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
-  phone     String?   @unique
+  id        String    @id @default(uuid())
+  name      String
+  email     String?   @unique
+  phone     String    @unique
   password  String
-  name      String?
+  role      Role      @default(PASSENGER)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
+
+  passenger     Passenger?
+  staff         Staff?
+  notifications Notification[]
+  auditLogs     AuditLog[]
+}
+
+enum Role {
+  PASSENGER
+  STAFF
+  ADMIN
+  SUPER_ADMIN
+}
+
+model Passenger {
+  id        String    @id @default(uuid())
+  userId    String    @unique
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user      User       @relation(fields: [userId], references: [id])
+  bookings  Booking[]
+  feedbacks Feedback[]
+}
+
+model Staff {
+  id            String        @id @default(uuid())
+  userId        String        @unique
+  position      StaffPosition
+  licenseNumber String?
+  hireDate      DateTime      @default(now())
+  isDeleted     Boolean       @default(false)
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+
+  user  User   @relation(fields: [userId], references: [id])
+  trips Trip[]
+}
+
+enum StaffPosition {
+  DRIVER
+  CONDUCTOR
+  SUPERVISOR
+}
+
+model Bus {
+  id        String    @id @default(uuid())
+  busNumber String    @unique
+  capacity  Int
+  type      BusType   @default(STANDARD)
+  status    BusStatus @default(ACTIVE)
+  isDeleted Boolean   @default(false)
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  seats Seat[]
+  trips Trip[]
+}
+
+enum BusType {
+  MINIBUS
+  STANDARD
+  LUXURY
+}
+
+enum BusStatus {
+  ACTIVE
+  MAINTENANCE
+  INACTIVE
+}
+
+model Seat {
+  id          String    @id @default(uuid())
+  busId       String
+  seatNumber  String
+  isAvailable Boolean   @default(true)
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  bus     Bus      @relation(fields: [busId], references: [id])
+  tickets Ticket[]
+}
+
+model Route {
+  id                String    @id @default(uuid())
+  departure         String
+  destination       String
+  distanceKm        Float
+  estimatedDuration Int
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+
+  trips Trip[]
+}
+
+model Trip {
+  id            String     @id @default(uuid())
+  busId         String
+  routeId       String
+  driverId      String?
+  departureTime DateTime
+  arrivalTime   DateTime
+  status        TripStatus @default(SCHEDULED)
+  updatedAt     DateTime   @updatedAt
+  deletedAt     DateTime?
+
+  bus       Bus        @relation(fields: [busId], references: [id])
+  route     Route      @relation(fields: [routeId], references: [id])
+  driver    Staff?     @relation(fields: [driverId], references: [id])
+  bookings  Booking[]
+  feedbacks Feedback[]
+}
+
+enum TripStatus {
+  SCHEDULED
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+model Booking {
+  id          String        @id @default(uuid())
+  passengerId String
+  tripId      String
+  bookingDate DateTime      @default(now())
+  status      BookingStatus @default(PENDING)
+  totalAmount Float
+  isDeleted   Boolean       @default(false)
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  passenger Passenger @relation(fields: [passengerId], references: [id])
+  trip      Trip      @relation(fields: [tripId], references: [id])
+  tickets   Ticket[]
+  payment   Payment?
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model Ticket {
+  id        String       @id @default(uuid())
+  bookingId String
+  seatId    String
+  status    TicketStatus @default(BOOKED)
+  price     Float
+  isDeleted Boolean      @default(false)
+  deletedAt DateTime?
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  seat    Seat    @relation(fields: [seatId], references: [id])
+
+  @@unique([seatId, bookingId]) // prevent double-booking same seat in same booking
+}
+
+enum TicketStatus {
+  BOOKED
+  CANCELLED
+  USED
+}
+
+model Payment {
+  id                   String        @id @default(uuid())
+  bookingId            String        @unique
+  amount               Float
+  method               PaymentMethod
+  transactionReference String?
+  status               PaymentStatus @default(PENDING)
+  paidAt               DateTime?
+  isDeleted            Boolean       @default(false)
+  updatedAt            DateTime      @updatedAt
+  deletedAt            DateTime?
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+}
+
+enum PaymentMethod {
+  CASH
+  TELE_BIRR
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model Feedback {
+  id          String    @id @default(uuid())
+  passengerId String
+  tripId      String
+  rating      Int
+  comment     String?
+  submittedAt DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  passenger Passenger @relation(fields: [passengerId], references: [id])
+  trip      Trip      @relation(fields: [tripId], references: [id])
+}
+
+model Notification {
+  id        String             @id @default(uuid())
+  userId    String
+  type      NotificationType
+  content   String
+  status    NotificationStatus @default(PENDING)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum NotificationType {
+  BOOKING_CONFIRMATION
+  TRIP_REMINDER
+  CANCELLATION
+}
+
+enum NotificationStatus {
+  SENT
+  PENDING
+  FAILED
+}
+
+model AuditLog {
+  id          String    @id @default(uuid())
+  action      String
+  performedBy String
+  timestamp   DateTime  @default(now())
+  details     String?
+  isDeleted   Boolean   @default(false)
+  deletedAt   DateTime?
+
+  user User @relation(fields: [performedBy], references: [id])
 }
