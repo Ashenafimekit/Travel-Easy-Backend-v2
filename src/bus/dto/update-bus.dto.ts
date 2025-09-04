@@ -1,4 +1,5 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateBusDto } from './create-bus.dto';
+import { z } from 'zod';
+import { CreateBusDtoSchema } from './create-bus.dto';
 
-export class UpdateBusDto extends PartialType(CreateBusDto) {}
+export const updateBusSchema = CreateBusDtoSchema.partial();
+export type UpdateBusDto = z.infer<typeof updateBusSchema>;

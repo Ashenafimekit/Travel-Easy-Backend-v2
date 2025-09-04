@@ -1,0 +1,60 @@
+@baseUrl=http://localhost:3333/api/v2
+
+# @name login
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+    "phone" : "0942240594",
+    "password" : "Melos@TE"
+}
+
+### Get token
+@jwtToken = {{login.response.body.jwtToken}}
+
+### add single bus 
+POST {{baseUrl}}/bus
+Content-Type: application/json
+
+{
+    "busNumber": 101,
+    "capacity": 51
+}
+
+### add bulk bus
+POST {{baseUrl}}/bus/bulk
+Content-Type: application/json
+
+[
+    { "busNumber": 101, "capacity": 51 },
+    { "busNumber": 102, "capacity": 51 },
+    { "busNumber": 103, "capacity": 51 },
+    { "busNumber": 104, "capacity": 51 }
+]
+
+### search bus by id
+GET  {{baseUrl}}/bus/00af62b5-33f4-40b2-bd67-d002bc945ff6
+Content-Type: application/json
+
+### get paginated, filtered and sorted buses
+GET {{baseUrl}}/bus?page=1&perPage=10&filterField=type&filterValue=STANDARD&sortField=createdAt&sortOrder=desc
+Content-Type: application/json
+
+
+### get all buses
+GET {{baseUrl}}/bus?all=true
+Content-Type: application/json
+
+### update bus with id
+PATCH {{baseUrl}}/bus/00af62b5-33f4-40b2-bd67-d002bc945ff6
+Content-Type: application/json
+
+{
+    "busNumber" : 103,
+    "capacity" : 51
+}
+
+ 
+### delete bus by id
+DELETE {{baseUrl}}/bus/512a87ae-a5b3-4a40-8005-a354f57baddd
+Content-Type: application/json
