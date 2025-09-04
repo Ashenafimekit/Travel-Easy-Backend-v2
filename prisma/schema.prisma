@@ -112,12 +112,14 @@ model Route {
   departure         String
   destination       String
   distanceKm        Float
-  estimatedDuration Int
+  estimatedDuration Float
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   deletedAt         DateTime?
 
   trips Trip[]
+
+  @@unique([departure, destination])
 }
 
 model Trip {

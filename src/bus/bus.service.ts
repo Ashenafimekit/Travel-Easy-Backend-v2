@@ -2,7 +2,7 @@ import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { CreateBusDto } from './dto/create-bus.dto';
 import { UpdateBusDto } from './dto/update-bus.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { BusQueryDto } from './dto/query.dto';
+import { BusQueryDto } from './dto/bus-query.dto';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -43,16 +43,8 @@ export class BusService {
 
   async findAll(query: BusQueryDto) {
     try {
-      let {
-        page,
-        perPage,
-        search,
-        filterField,
-        filterValue,
-        sortField,
-        sortOrder,
-        all,
-      } = query;
+      const { search, filterField, filterValue } = query;
+      let { page, perPage, sortField, sortOrder, all } = query;
 
       page = page || 1;
       perPage = perPage || 10;
@@ -63,7 +55,7 @@ export class BusService {
       sortOrder = sortOrder || 'desc';
       sortField = sortField || 'createdAt';
 
-      all = all || false;
+      all = all ?? false;
 
       if (all) {
         const buses = await this.prisma.bus.findMany({
@@ -131,7 +123,7 @@ export class BusService {
       const checkBus = await this.prisma.bus.findUnique({
         where: { busNumber: updateBusDto.busNumber },
       });
-      if (checkBus) throw new HttpException('Bus number already exists', 400);
+      if (!checkBus) throw new HttpException('Bus not found', 404);
 
       const bus = await this.prisma.bus.update({
         where: { id: id },

@@ -11,7 +11,7 @@ import {
 import { BusService } from './bus.service';
 import { CreateBusDto } from './dto/create-bus.dto';
 import { UpdateBusDto } from './dto/update-bus.dto';
-import { BusQueryDto } from './dto/query.dto';
+import { BusQueryDto } from './dto/bus-query.dto';
 
 @Controller('bus')
 export class BusController {

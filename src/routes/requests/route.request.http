@@ -1,0 +1,226 @@
+@baseUrl=http://localhost:3333/api/v2
+
+# @name login
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+    "phone" : "0942240594",
+    "password" : "Melos@TE"
+}
+
+### Get token
+@jwtToken = {{login.response.body.jwtToken}}
+
+### add single bus 
+POST {{baseUrl}}/routes
+Content-Type: application/json
+
+{
+    "departure" : "HARAR",
+    "destination": "ADDIS ABABA",
+    "distanceKm" : 530,
+    "estimatedDuration" : 10.42
+}
+
+### add bulk bus
+POST {{baseUrl}}/routes/bulk
+Content-Type: application/json
+
+[
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "DIRE DAWA",
+    "distanceKm": 445,
+    "estimatedDuration": 8.0
+  },
+  {
+    "departure": "DIRE DAWA",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 445,
+    "estimatedDuration": 8.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "HARAR",
+    "distanceKm": 526,
+    "estimatedDuration": 10.0
+  },
+  {
+    "departure": "HARAR",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 526,
+    "estimatedDuration": 10.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "ADAMA (NAZRET)",
+    "distanceKm": 99,
+    "estimatedDuration": 2.0
+  },
+  {
+    "departure": "ADAMA (NAZRET)",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 99,
+    "estimatedDuration": 2.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "BAHIR DAR",
+    "distanceKm": 565,
+    "estimatedDuration": 10.0
+  },
+  {
+    "departure": "BAHIR DAR",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 565,
+    "estimatedDuration": 10.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "GONDAR",
+    "distanceKm": 725,
+    "estimatedDuration": 13.0
+  },
+  {
+    "departure": "GONDAR",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 725,
+    "estimatedDuration": 13.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "MEKELE",
+    "distanceKm": 780,
+    "estimatedDuration": 14.0
+  },
+  {
+    "departure": "MEKELE",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 780,
+    "estimatedDuration": 14.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "DESSIE",
+    "distanceKm": 400,
+    "estimatedDuration": 7.0
+  },
+  {
+    "departure": "DESSIE",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 400,
+    "estimatedDuration": 7.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "JIMMA",
+    "distanceKm": 350,
+    "estimatedDuration": 6.5
+  },
+  {
+    "departure": "JIMMA",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 350,
+    "estimatedDuration": 6.5
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "HAWASSA",
+    "distanceKm": 275,
+    "estimatedDuration": 5.0
+  },
+  {
+    "departure": "HAWASSA",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 275,
+    "estimatedDuration": 5.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "ARBAMINCH",
+    "distanceKm": 505,
+    "estimatedDuration": 9.0
+  },
+  {
+    "departure": "ARBAMINCH",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 505,
+    "estimatedDuration": 9.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "NEKEMTE",
+    "distanceKm": 331,
+    "estimatedDuration": 6.0
+  },
+  {
+    "departure": "NEKEMTE",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 331,
+    "estimatedDuration": 6.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "ASSOSA",
+    "distanceKm": 660,
+    "estimatedDuration": 12.0
+  },
+  {
+    "departure": "ASSOSA",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 660,
+    "estimatedDuration": 12.0
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "SEMERA",
+    "distanceKm": 580,
+    "estimatedDuration": 10.5
+  },
+  {
+    "departure": "SEMERA",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 580,
+    "estimatedDuration": 10.5
+  },
+  {
+    "departure": "ADDIS ABABA",
+    "destination": "GAMBELLA",
+    "distanceKm": 777,
+    "estimatedDuration": 14.0
+  },
+  {
+    "departure": "GAMBELLA",
+    "destination": "ADDIS ABABA",
+    "distanceKm": 777,
+    "estimatedDuration": 14.0
+  }
+]
+
+
+### search bus by id
+GET  {{baseUrl}}/routes/fa0dce5d-ebc9-4376-82ed-bd7e12509e47
+Content-Type: application/json
+
+### get paginated, filtered and sorted buses
+GET {{baseUrl}}/routes?page=1&perPage=10&filterField=type&filterValue=STANDARD&sortField=createdAt&sortOrder=desc
+Content-Type: application/json
+
+
+### get all buses
+GET {{baseUrl}}/routes?all=true
+Content-Type: application/json
+
+### update bus with id
+PATCH {{baseUrl}}/routes/fa0dce5d-ebc9-4376-82ed-bd7e12509e47
+Content-Type: application/json
+
+{
+    "estimatedDuration" : 10.42
+}
+
+ 
+### delete bus by id
+DELETE {{baseUrl}}/routes/6790c743-18a2-447b-854d-54cd05817119
+Content-Type: application/json
