@@ -60,6 +60,7 @@ export class BusService {
       if (all) {
         const buses = await this.prisma.bus.findMany({
           orderBy: { [sortField]: sortOrder },
+          where: { deletedAt: null },
         });
         const total = buses.length;
         return {
@@ -75,9 +76,11 @@ export class BusService {
 
       if (search) {
         where.OR = [{ busNumber: { equals: Number(search) } }];
+        where.deletedAt = null;
       }
       if (filterField && filterValue) {
         where[filterField] = { equals: filterValue };
+        where.deletedAt = null;
       }
 
       const [buses, total] = await Promise.all([
@@ -107,7 +110,9 @@ export class BusService {
 
   async findOne(id: string) {
     try {
-      const bus = await this.prisma.bus.findUnique({ where: { id: id } });
+      const bus = await this.prisma.bus.findUnique({
+        where: { id: id, deletedAt: null },
+      });
       if (!bus) throw new HttpException('Bus not found', 404);
       return bus;
     } catch (error) {
@@ -142,7 +147,10 @@ export class BusService {
 
   async remove(id: string) {
     try {
-      const bus = await this.prisma.bus.delete({ where: { id: id } });
+      const bus = await this.prisma.bus.update({
+        where: { id: id },
+        data: { deletedAt: new Date() },
+      });
       if (!bus) throw new HttpException('Bus not found', 404);
       return bus;
     } catch (error) {
