@@ -1,43 +1,20 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
-import { CreateUser, UpdateUser } from './type/user.type';
+import { User, UpdateUser } from './type/user.type';
 import { PrismaService } from 'src/prisma/prisma.service';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name, { timestamp: true });
   constructor(private prisma: PrismaService) {}
-  async create(createUserDto: CreateUser) {
-    const existedUser = await this.prisma.user.findUnique({
-      where: {
-        phone: createUserDto.phone,
-      },
-    });
-    if (existedUser) {
-      throw new Error('User already exists');
-    }
-    if (!createUserDto.password) {
-      throw new Error('Password is required');
-    }
-    createUserDto.password = await bcrypt.hash(password, 10);
-    try {
-      const user = await this.prisma.user.create({
-        data: createUserDto,
-      });
-      return user;
-    } catch (error: any) {
-      this.logger.error(error);
-      if (error instanceof HttpException) {
-        throw error;
-      }
-      throw new Error(error);
-    }
+  create(createUserDto: User) {
+    return 'This action adds a new user';
   }
 
   async findAll() {
     try {
-      const users = await 
-    } catch (error : any) {
+      const users = await this.prisma.user.findMany();
+      return users;
+    } catch (error: any) {
       if (error instanceof HttpException) {
         throw error;
       }

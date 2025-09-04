@@ -11,7 +11,7 @@ export const UserSchema = z.object({
     .default('PASSENGER'),
 });
 
-export type CreateUser = z.infer<typeof UserSchema>;
+export type User = z.infer<typeof UserSchema>;
 
 export const updateUserSchema = UserSchema.partial();
 export type UpdateUser = z.infer<typeof updateUserSchema>;

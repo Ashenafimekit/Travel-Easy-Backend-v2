@@ -1,70 +1,100 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import * as bcrypt from 'bcryptjs';
-import { CreateUserDto } from './dto/create-user.dto';
+import bcrypt from 'bcryptjs';
+import { User } from 'src/user/type/user.type';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-  private readonly loger = new Logger(AuthService.name, { timestamp: true });
+  private readonly logger = new Logger(AuthService.name, { timestamp: true });
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string) {
+  async validateUser(phone: string, password: string) {
     try {
       const user = await this.prisma.user.findUnique({
-        where: { email: email },
+        where: { phone: phone },
         select: {
           id: true,
           name: true,
           email: true,
+          phone: true,
+          role: true,
           password: true,
         },
       });
 
       if (user && user.password) {
-        const isPasswordValid = await bcrypt.compare(pass, user.password);
+        const isPasswordValid: boolean = await bcrypt.compare(
+          password,
+          user.password,
+        );
         if (isPasswordValid) {
-          const { password: _password, ...result } = user;
-          return result;
+          const { password, ...rest } = user;
+          return rest;
         } else {
           throw new NotFoundException('Invalid credentials');
         }
       }
       throw new NotFoundException('User not found');
     } catch (error: unknown) {
-      console.error('Error validating user:', error);
+      this.logger.error(`User validation failed`);
 
       if (error instanceof NotFoundException) {
         throw error;
+      }
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      if (error instanceof Error) {
+        throw new Error(error.message);
       }
       throw new Error('User validation failed');
     }
   }
 
-  async signup(createUserDto: CreateUserDto) {
+  async signup(createUserDto: User) {
     try {
-      const password = createUserDto.password;
+      const password: string = createUserDto.password;
       const hashedPassword = bcrypt.hashSync(password, 10);
+
       const user = await this.prisma.user.create({
         data: {
           name: createUserDto.name,
           email: createUserDto.email,
+          phone: createUserDto.phone,
           password: hashedPassword,
         },
       });
       return user;
-    } catch (error) {
-      this.loger.error(`internal server error`);
-      throw new Error(error);
+    } catch (error: any) {
+      this.logger.error(`internal server error`);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw new HttpException('User already exists', 400);
+        }
+      }
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      throw new Error('internal server error');
     }
   }
 
-  async login(user: { email: string }) {
+  async login(user: { phone: string }) {
     const exitingUser = await this.prisma.user.findUnique({
-      where: { email: user.email },
+      where: { phone: user.phone },
     });
     if (!exitingUser) {
       throw new NotFoundException('User not found');
@@ -79,12 +109,10 @@ export class AuthService {
 
     // console.log('🚀 ~ AuthService ~ login ~ email:', exitingUser.email);
     return {
-      user: {
-        id: exitingUser.id,
-        email: exitingUser.email,
-        name: exitingUser.name,
-        accessToken: token,
-      },
+      id: exitingUser.id,
+      email: exitingUser.email,
+      name: exitingUser.name,
+      accessToken: token,
     };
   }
 }

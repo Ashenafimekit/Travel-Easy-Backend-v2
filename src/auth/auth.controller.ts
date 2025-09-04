@@ -9,26 +9,20 @@ import {
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
-import { CreateUserDto } from './dto/create-user.dto';
-
+import { User } from 'src/user/type/user.type';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly auhtService: AuthService) {}
 
   @Post('signup')
-  signup(@Body() creatUserDto: CreateUserDto) {
+  signup(@Body() creatUserDto: User) {
     return this.auhtService.signup(creatUserDto);
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req: { user: { email: string } }) {
-    const result = await this.auhtService.login(req.user);
-
-    return {
-      success: true,
-      user: result.user,
-    };
+  async login(@Request() req: { user: { phone: string } }) {
+    return await this.auhtService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@anatine/zod-nestjs": "^2.0.12",
+    "@casl/ability": "^6.7.3",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/jwt": "^11.0.0",
@@ -29,6 +30,9 @@
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/client": "^6.15.0",
     "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
     "cookie-parser": "^1.4.7",
     "helmet": "^8.1.0",
     "passport": "^0.7.0",
