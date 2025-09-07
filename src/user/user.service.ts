@@ -12,8 +12,6 @@ export class UserService {
 
   async findAll() {
     try {
-      const users = await this.prisma.user.findMany();
-      return users;
     } catch (error: any) {
       if (error instanceof HttpException) {
         throw error;

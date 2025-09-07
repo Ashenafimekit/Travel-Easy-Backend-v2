@@ -16,8 +16,21 @@ export class BusService {
       });
       if (checkBus) throw new HttpException('Bus number already exists', 400);
 
-      const bus = this.prisma.bus.create({ data: createBusDto });
-      return bus;
+      return await this.prisma.$transaction(async (tx) => {
+        const bus = await tx.bus.create({ data: createBusDto });
+
+        const seats = Array.from(
+          { length: createBusDto.capacity },
+          (_, index) => ({
+            seatNumber: `S${index + 1}`,
+            busId: bus.id,
+          }),
+        );
+
+        await tx.seat.createMany({ data: seats, skipDuplicates: true });
+
+        return bus;
+      });
     } catch (error: any) {
       this.logger.error(error);
       if (error instanceof HttpException) throw error;
@@ -28,11 +41,27 @@ export class BusService {
 
   async createMany(createBusDto: CreateBusDto[]) {
     try {
-      const buses = await this.prisma.bus.createMany({
-        data: createBusDto,
-        skipDuplicates: true,
+      return await this.prisma.$transaction(async (tx) => {
+        const buses: CreateBusDto[] = [];
+
+        for (const dto of createBusDto) {
+          const bus = await tx.bus.create({ data: dto });
+
+          const seats = Array.from({ length: dto.capacity }, (_, index) => ({
+            seatNumber: `S${index + 1}`,
+            busId: bus.id,
+          }));
+
+          await tx.seat.createMany({
+            data: seats,
+            skipDuplicates: true,
+          });
+
+          buses.push(bus);
+        }
+
+        return buses.length;
       });
-      return buses;
     } catch (error: any) {
       this.logger.error(error);
       if (error instanceof HttpException) throw error;
