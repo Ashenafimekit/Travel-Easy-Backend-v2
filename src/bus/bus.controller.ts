@@ -19,37 +19,37 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 export class BusController {
   constructor(private readonly busService: BusService) {}
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('')
   create(@Body() createBusDto: CreateBusDto) {
     return this.busService.create(createBusDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('/bulk')
   createMany(@Body() createBusDto: CreateBusDto[]) {
     return this.busService.createMany(createBusDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Query() query: BusQueryDto) {
     return this.busService.findAll(query);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.busService.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBusDto: UpdateBusDto) {
     return this.busService.update(id, updateBusDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.busService.remove(id);

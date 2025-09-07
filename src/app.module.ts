@@ -13,9 +13,10 @@ import { RoutesModule } from './routes/routes.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { PassengersModule } from './passengers/passengers.module';
 import { CaslModule } from './casl/casl.module';
+import { TripModule } from './trip/trip.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UserModule, BusModule, RoutesModule, TicketsModule, PassengersModule, CaslModule],
+  imports: [PrismaModule, AuthModule, UserModule, BusModule, RoutesModule, TicketsModule, PassengersModule, CaslModule, TripModule],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

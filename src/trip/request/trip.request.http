@@ -1,0 +1,54 @@
+@baseUrl=http://localhost:3333/api/v2
+
+# @name login
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+    "phone" : "942240594",
+    "password" : "Melos@TE"
+}
+
+### Get token
+@jwtToken = {{login.response.body.jwtToken}}
+
+
+### create trip 
+POST {{baseUrl}}/trip
+Content-Type: application/json
+Cookie: jwtToken:{{jwtToken}}
+
+{
+    "busId": ["462a8679-726e-4937-b39a-31d3af370572","6e6f2620-af3c-48a1-8c68-e83b5f97dd68"],
+    "routeId": "04b01bc6-06ce-42ef-950c-1244f4bb5608",
+    "departureTime" : "2025-09-07T04:00:00.000Z",
+    "arrivalTime" : "2025-09-07T16:00:00.000Z",
+    "status" : "SCHEDULED"
+}
+
+### get trips with pagination, filter, sort and search
+GET {{baseUrl}}/trip?page=1&perPage=10&sortField=createdAt&sortOrder=desc
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+### search trip with id 
+GET  {{baseUrl}}/trip?e366c35f-ca8b-40ae-ad95-f4674ce69b68
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+### update trip
+PATCH {{baseUrl}}/trip?e366c35f-ca8b-40ae-ad95-f4674ce69b68
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+{
+    "departureTime" : "2025-09-09T04:00:00.000Z",
+    "arrivalTime" : "2025-09-09T16:00:00.000Z",
+    "status" : "SCHEDULED"
+}
+
+
+### delete trip with id
+DELETE {{baseUrl}}/trip/cbe4c849-a37d-42c3-9863-e1a2a45ae6fc
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}

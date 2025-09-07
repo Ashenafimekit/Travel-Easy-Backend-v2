@@ -12,7 +12,7 @@ Content-Type: application/json
 ### Get token
 @jwtToken = {{login.response.body.jwtToken}}
 
-### add single bus 
+### add single route
 POST {{baseUrl}}/routes
 Content-Type: application/json
 
@@ -23,7 +23,7 @@ Content-Type: application/json
     "estimatedDuration" : 10.42
 }
 
-### add bulk bus
+### add bulk routes
 POST {{baseUrl}}/routes/bulk
 Content-Type: application/json
 

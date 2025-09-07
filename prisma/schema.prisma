@@ -10,7 +10,7 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   name      String
   email     String?   @unique
   phone     String    @unique
@@ -34,7 +34,7 @@ enum Role {
 }
 
 model Passenger {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   userId    String   @unique
   createdAt DateTime @default(now())
 
@@ -47,7 +47,7 @@ model Passenger {
 }
 
 model Staff {
-  id            String        @id @default(uuid())
+  id            String        @id @default(cuid())
   userId        String        @unique
   position      StaffPosition
   licenseNumber String?
@@ -68,7 +68,7 @@ enum StaffPosition {
 }
 
 model Bus {
-  id        String    @id @default(uuid())
+  id        String    @id @default(cuid())
   busNumber Int       @unique
   capacity  Int
   type      BusType   @default(STANDARD)
@@ -79,7 +79,7 @@ model Bus {
   deletedAt DateTime?
 
   seats Seat[]
-  trips Trip[]
+  trips Trip[] @relation("TripBus")
 }
 
 enum BusType {
@@ -95,7 +95,7 @@ enum BusStatus {
 }
 
 model Seat {
-  id          String    @id @default(uuid())
+  id          String    @id @default(cuid())
   busId       String
   seatNumber  String
   isAvailable Boolean   @default(true)
@@ -108,7 +108,7 @@ model Seat {
 }
 
 model Route {
-  id                String    @id @default(uuid())
+  id                String    @id @default(cuid())
   departure         String
   destination       String
   distanceKm        Float
@@ -123,8 +123,7 @@ model Route {
 }
 
 model Trip {
-  id            String     @id @default(uuid())
-  busId         String
+  id            String     @id @default(cuid())
   routeId       String
   driverId      String?
   departureTime DateTime
@@ -134,9 +133,9 @@ model Trip {
   updatedAt     DateTime   @updatedAt
   deletedAt     DateTime?
 
-  bus       Bus        @relation(fields: [busId], references: [id])
   route     Route      @relation(fields: [routeId], references: [id])
   driver    Staff?     @relation(fields: [driverId], references: [id])
+  buses     Bus[]      @relation("TripBus")
   bookings  Booking[]
   feedbacks Feedback[]
 }
@@ -149,7 +148,7 @@ enum TripStatus {
 }
 
 model Booking {
-  id          String        @id @default(uuid())
+  id          String        @id @default(cuid())
   passengerId String
   tripId      String
   bookingDate DateTime      @default(now())
@@ -173,7 +172,7 @@ enum BookingStatus {
 }
 
 model Ticket {
-  id        String       @id @default(uuid())
+  id        String       @id @default(cuid())
   bookingId String
   seatId    String
   status    TicketStatus @default(BOOKED)
@@ -196,7 +195,7 @@ enum TicketStatus {
 }
 
 model Payment {
-  id                   String        @id @default(uuid())
+  id                   String        @id @default(cuid())
   bookingId            String        @unique
   amount               Float
   method               PaymentMethod
@@ -223,7 +222,7 @@ enum PaymentStatus {
 }
 
 model Feedback {
-  id          String    @id @default(uuid())
+  id          String    @id @default(cuid())
   passengerId String
   tripId      String
   rating      Int
@@ -238,7 +237,7 @@ model Feedback {
 }
 
 model Notification {
-  id        String             @id @default(uuid())
+  id        String             @id @default(cuid())
   userId    String
   type      NotificationType
   content   String
@@ -263,7 +262,7 @@ enum NotificationStatus {
 }
 
 model AuditLog {
-  id          String    @id @default(uuid())
+  id          String    @id @default(cuid())
   action      String
   performedBy String
   timestamp   DateTime  @default(now())
