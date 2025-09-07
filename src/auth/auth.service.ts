@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
-import bcrypt from 'bcryptjs';
+import * as bcrypt from 'bcryptjs';
 import { User } from 'src/user/type/user.type';
 import { Prisma } from '@prisma/client';
 
@@ -63,8 +63,16 @@ export class AuthService {
 
   async signup(createUserDto: User) {
     try {
+      const existingUser = await this.prisma.user.findUnique({
+        where: { phone: createUserDto.phone },
+      });
+      if (existingUser) {
+        throw new HttpException('User already exists', 400);
+      }
+
       const password: string = createUserDto.password;
-      const hashedPassword = bcrypt.hashSync(password, 10);
+      const salt = Number(process.env.SALT_ROUND) || 10;
+      const hashedPassword = await bcrypt.hash(password, salt);
 
       const user = await this.prisma.user.create({
         data: {
@@ -72,9 +80,11 @@ export class AuthService {
           email: createUserDto.email,
           phone: createUserDto.phone,
           password: hashedPassword,
+          role: createUserDto.role,
         },
       });
-      return user;
+      const { password: _, ...safeUser } = user;
+      return safeUser;
     } catch (error: any) {
       this.logger.error(`internal server error`);
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -101,8 +111,8 @@ export class AuthService {
     }
 
     const payload = {
-      email: exitingUser.email,
       id: exitingUser.id,
+      phone: exitingUser.phone,
       role: exitingUser.role,
     };
     const token = this.jwtService.sign(payload);
@@ -110,9 +120,9 @@ export class AuthService {
     // console.log('🚀 ~ AuthService ~ login ~ email:', exitingUser.email);
     return {
       id: exitingUser.id,
-      email: exitingUser.email,
       name: exitingUser.name,
-      accessToken: token,
+      phone: exitingUser.phone,
+      jwtToken: token,
     };
   }
 }

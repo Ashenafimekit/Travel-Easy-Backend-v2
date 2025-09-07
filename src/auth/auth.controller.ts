@@ -14,13 +14,13 @@ import { User } from 'src/user/type/user.type';
 export class AuthController {
   constructor(private readonly auhtService: AuthService) {}
 
-  @Post('signup')
+  @Post('/signup')
   signup(@Body() creatUserDto: User) {
     return this.auhtService.signup(creatUserDto);
   }
 
   @UseGuards(LocalAuthGuard)
-  @Post('login')
+  @Post('/signin')
   async login(@Request() req: { user: { phone: string } }) {
     return await this.auhtService.login(req.user);
   }

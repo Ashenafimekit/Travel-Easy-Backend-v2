@@ -15,6 +15,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new ConsoleLogger({ prefix: 'Travel-Easy' }),
   });
+  app.use(cookieParser());
   app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
   app.useGlobalFilters(
     new HttpExceptionFilter(),
@@ -24,7 +25,6 @@ async function bootstrap() {
     new PrismaValidationErrorFilter(),
   );
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  app.use(cookieParser());
   app.enableCors({
     origin: ['http://localhost:3000', 'http://localhost:3001'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

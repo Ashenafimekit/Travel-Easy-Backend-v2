@@ -118,6 +118,19 @@ export class BusService {
           skip,
           take,
           orderBy: { [sortField]: sortOrder },
+          select: {
+            id: true,
+            busNumber: true,
+            capacity: true,
+            status: true,
+            seats: {
+              select: {
+                id: true,
+                seatNumber: true,
+                isAvailable: true,
+              },
+            },
+          },
         }),
         this.prisma.bus.count({ where }),
       ]);
@@ -141,6 +154,19 @@ export class BusService {
     try {
       const bus = await this.prisma.bus.findUnique({
         where: { id: id, deletedAt: null },
+        select: {
+          id: true,
+          busNumber: true,
+          capacity: true,
+          status: true,
+          seats: {
+            select: {
+              id: true,
+              seatNumber: true,
+              isAvailable: true,
+            },
+          },
+        },
       });
       if (!bus) throw new HttpException('Bus not found', 404);
       return bus;

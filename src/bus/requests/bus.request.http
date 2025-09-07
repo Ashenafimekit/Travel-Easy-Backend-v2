@@ -15,6 +15,7 @@ Content-Type: application/json
 ### add single bus 
 POST {{baseUrl}}/bus
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 {
     "busNumber": 101,
@@ -24,127 +25,35 @@ Content-Type: application/json
 ### add bulk bus
 POST {{baseUrl}}/bus/bulk
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 [
-  {"busNumber": 1, "capacity": 51},
-  {"busNumber": 2, "capacity": 51},
-  {"busNumber": 3, "capacity": 51},
-  {"busNumber": 4, "capacity": 51},
-  {"busNumber": 5, "capacity": 51},
-  {"busNumber": 6, "capacity": 51},
-  { "busNumber": 7, "capacity": 51 },
-  { "busNumber": 8, "capacity": 51 },
-  { "busNumber": 9, "capacity": 51 },
-  { "busNumber": 10, "capacity": 51 },
-  { "busNumber": 11, "capacity": 51 },
-  { "busNumber": 12, "capacity": 51 },
-  { "busNumber": 13, "capacity": 51 },
-  { "busNumber": 14, "capacity": 51 },
-  { "busNumber": 15, "capacity": 51 },
-  { "busNumber": 16, "capacity": 51 },
-  { "busNumber": 17, "capacity": 51 },
-  { "busNumber": 18, "capacity": 51 },
-  { "busNumber": 19, "capacity": 51 },
-  { "busNumber": 20, "capacity": 51 },
-  { "busNumber": 21, "capacity": 51 },
-  { "busNumber": 22, "capacity": 51 },
-  { "busNumber": 23, "capacity": 51 },
-  { "busNumber": 24, "capacity": 51 },
-  { "busNumber": 25, "capacity": 51 },
-  { "busNumber": 26, "capacity": 51 },
-  { "busNumber": 27, "capacity": 51 },
-  { "busNumber": 28, "capacity": 51 },
-  { "busNumber": 29, "capacity": 51 },
-  { "busNumber": 30, "capacity": 51 },
-  { "busNumber": 31, "capacity": 51 },
-  { "busNumber": 32, "capacity": 51 },
-  { "busNumber": 33, "capacity": 51 },
-  { "busNumber": 34, "capacity": 51 },
-  { "busNumber": 35, "capacity": 51 },
-  { "busNumber": 36, "capacity": 51 },
-  { "busNumber": 37, "capacity": 51 },
-  { "busNumber": 38, "capacity": 51 },
-  { "busNumber": 39, "capacity": 51 },
-  { "busNumber": 40, "capacity": 51 },
-  { "busNumber": 41, "capacity": 51 },
-  { "busNumber": 42, "capacity": 51 },
-  { "busNumber": 43, "capacity": 51 },
-  { "busNumber": 44, "capacity": 51 },
-  { "busNumber": 45, "capacity": 51 },
-  { "busNumber": 46, "capacity": 51 },
-  { "busNumber": 47, "capacity": 51 },
-  { "busNumber": 48, "capacity": 51 },
-  { "busNumber": 49, "capacity": 51 },
-  { "busNumber": 50, "capacity": 51 },
-  { "busNumber": 51, "capacity": 51 },
-  { "busNumber": 52, "capacity": 51 },
-  { "busNumber": 53, "capacity": 51 },
-  { "busNumber": 54, "capacity": 51 },
-  { "busNumber": 55, "capacity": 51 },
-  { "busNumber": 56, "capacity": 51 },
-  { "busNumber": 57, "capacity": 51 },
-  { "busNumber": 58, "capacity": 51 },
-  { "busNumber": 59, "capacity": 51 },
-  { "busNumber": 60, "capacity": 51 },
-  { "busNumber": 61, "capacity": 51 },
-  { "busNumber": 62, "capacity": 51 },
-  { "busNumber": 63, "capacity": 51 },
-  { "busNumber": 64, "capacity": 51 },
-  { "busNumber": 65, "capacity": 51 },
-  { "busNumber": 66, "capacity": 51 },
-  { "busNumber": 67, "capacity": 51 },
-  { "busNumber": 68, "capacity": 51 },
-  { "busNumber": 69, "capacity": 51 },
-  { "busNumber": 70, "capacity": 51 },
-  { "busNumber": 71, "capacity": 51 },
-  { "busNumber": 72, "capacity": 51 },
-  { "busNumber": 73, "capacity": 51 },
-  { "busNumber": 74, "capacity": 51 },
-  { "busNumber": 75, "capacity": 51 },
-  { "busNumber": 76, "capacity": 51 },
-  { "busNumber": 77, "capacity": 51 },
-  { "busNumber": 78, "capacity": 51 },
-  { "busNumber": 79, "capacity": 51 },
-  { "busNumber": 80, "capacity": 51 },
-  { "busNumber": 81, "capacity": 51 },
-  { "busNumber": 82, "capacity": 51 },
-  { "busNumber": 83, "capacity": 51 },
-  { "busNumber": 84, "capacity": 51 },
-  { "busNumber": 85, "capacity": 51 },
-  { "busNumber": 86, "capacity": 51 },
-  { "busNumber": 87, "capacity": 51 },
-  { "busNumber": 88, "capacity": 51 },
-  { "busNumber": 89, "capacity": 51 },
-  { "busNumber": 90, "capacity": 51 },
-  { "busNumber": 91, "capacity": 51 },
-  { "busNumber": 92, "capacity": 51 },
-  { "busNumber": 93, "capacity": 51 },
-  { "busNumber": 94, "capacity": 51 },
-  { "busNumber": 95, "capacity": 51 },
-  { "busNumber": 96, "capacity": 51 },
-  { "busNumber": 97, "capacity": 51 },
-  { "busNumber": 98, "capacity": 51 },
-  { "busNumber": 99, "capacity": 51 },
-  { "busNumber": 100, "capacity": 51 }
+    { "busNumber": 101, "capacity": 51 },
+    { "busNumber": 102, "capacity": 51 },
+    { "busNumber": 103, "capacity": 51 },
+    { "busNumber": 104, "capacity": 51 }
 ]
 
-
 ### search bus by id
-GET  {{baseUrl}}/bus/00af62b5-33f4-40b2-bd67-d002bc945ff6
+GET  {{baseUrl}}/bus/03d9b389-81e7-4a05-8875-d0ac519750a1
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 ### get paginated, filtered and sorted buses
 GET {{baseUrl}}/bus?page=1&perPage=10&filterField=type&filterValue=STANDARD&sortField=createdAt&sortOrder=desc
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 
 ### get all buses
 GET {{baseUrl}}/bus?all=true
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 ### update bus with id
 PATCH {{baseUrl}}/bus/00af62b5-33f4-40b2-bd67-d002bc945ff6
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 {
     "busNumber" : 103,
@@ -155,3 +64,9 @@ Content-Type: application/json
 ### delete bus by id
 DELETE {{baseUrl}}/bus/512a87ae-a5b3-4a40-8005-a354f57baddd
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+###
+# @name debug
+GET https://httpbin.org/get
+Cookie: jwtToken={{jwtToken}}

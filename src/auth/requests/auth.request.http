@@ -1,0 +1,37 @@
+@baseUrl=http://localhost:3333/api/v2
+
+# @name login
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+    "phone" : "942240594",
+    "password" : "Melos@TE"
+}
+
+### Get token
+@jwtToken = {{login.response.body.jwtToken}}
+
+### Register User 
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+    "name": "Ashenafi Mekit",
+    "email": "ashumekit502@gmail.com",
+    "phone": "942240594",
+    "password": "Melos@TE",
+    "role": "SUPER_ADMIN"
+}
+### another user 
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+    "name": "Melos Mekit",
+    "email": "melos@gmail.com",
+    "phone": "977681970",
+    "password": "Melos@TE",
+    "role": "PASSENGER"
+}
+
