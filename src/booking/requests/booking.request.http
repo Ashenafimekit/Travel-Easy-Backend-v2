@@ -1,0 +1,50 @@
+@baseUrl=http://localhost:3333/api/v2 
+
+# @name login
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+    "phone" : "942240594",
+    "password" : "Melos@TE"
+}
+
+### Get token
+@jwtToken = {{login.response.body.jwtToken}}
+
+### create booking 
+POST {{baseUrl}}/booking
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+{
+    "tripId" : "cmfb1mlpu0000cphdieo31veh",
+    "seatId" : ["cmfazm3uy0001cpfqmn5q8zst","cmfazm3uy0002cpfq36denkqj"],
+    "totalAmount" : 1890
+}
+
+### get bookings with pagination, filter, sort and search
+GET {{baseUrl}}/booking?page=1&perPage=10&sortField=createdAt&sortOrder=desc
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+
+### search trip with id 
+GET  {{baseUrl}}/booking/cmfb6v0690001cp21tvqowzhm
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+
+### update booking with booking id
+PATCH {{baseUrl}}/booking/cmfb6v0690001cp21tvqowzhm
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+{
+    "totalAmount" : 4000
+}
+
+### delete booking with booking id
+DELETE {{baseUrl}}/booking/
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}

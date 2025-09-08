@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { CurrentUser } from 'src/common/decorator/current-user';
+import { BookingQueryDto } from './dto/booking-query.dto';
 
 @Controller('booking')
 export class BookingController {
@@ -22,22 +24,22 @@ export class BookingController {
   }
 
   @Get()
-  findAll() {
-    return this.bookingService.findAll();
+  findAll(@Query() query: BookingQueryDto) {
+    return this.bookingService.findAll(query);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.bookingService.findOne(+id);
+    return this.bookingService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-    return this.bookingService.update(+id, updateBookingDto);
+    return this.bookingService.update(id, updateBookingDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.bookingService.remove(+id);
+    return this.bookingService.remove(id);
   }
 }

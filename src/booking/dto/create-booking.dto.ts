@@ -1,9 +1,12 @@
 import { z } from 'zod';
 
 export const CreateBookingDtoSchema = z.object({
-  //   passengerId: z.string().min(1, 'passengerId is required'),
   tripId: z.string().min(1, 'tripId is required'),
-  bookingDate: z.coerce.date(),
+  seatId: z
+    .array(z.string())
+    .min(1, 'seatId is required')
+    .min(1, 'minimum seat reservation is 1')
+    .max(10, 'maximum seat reservation is 10'),
   totalAmount: z.number().min(1, 'totalAmount is required'),
 });
 

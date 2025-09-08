@@ -101,15 +101,15 @@ export class BusService {
         };
       }
 
-      const where: Prisma.BusWhereInput = {};
+      const where: Prisma.BusWhereInput = {
+        deletedAt: null,
+      };
 
       if (search) {
         where.OR = [{ busNumber: { equals: Number(search) } }];
-        where.deletedAt = null;
       }
       if (filterField && filterValue) {
         where[filterField] = { equals: filterValue };
-        where.deletedAt = null;
       }
 
       const [buses, total] = await Promise.all([
