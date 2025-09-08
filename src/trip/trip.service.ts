@@ -122,15 +122,35 @@ export class TripService {
         };
       }
 
-      const where: Prisma.TripWhereInput = {};
+      const where: Prisma.TripWhereInput = {
+        deletedAt: null,
+      };
 
       if (search) {
-        where.OR = [
-          { departureTime: { equals: search } },
-          { arrivalTime: { equals: search } },
-          { routeId: { contains: search, mode: 'insensitive' } },
-        ];
-        where.deletedAt = null;
+        const date = new Date(search);
+        const isValidDate = !isNaN(date.getTime()); // check if it's a valid date
+
+        where.OR = [];
+
+        if (isValidDate) {
+          const startOfDay = new Date(date);
+          startOfDay.setHours(0, 0, 0, 0);
+
+          const endOfDay = new Date(date);
+          endOfDay.setHours(23, 59, 59, 999);
+
+          where.OR.push(
+            { departureTime: { gte: startOfDay, lte: endOfDay } },
+            { arrivalTime: { gte: startOfDay, lte: endOfDay } },
+          );
+        }
+
+        // Always search text fields for route
+        where.OR.push(
+          { route: { id: { contains: search, mode: 'insensitive' } } },
+          { route: { departure: { contains: search, mode: 'insensitive' } } },
+          { route: { destination: { contains: search, mode: 'insensitive' } } },
+        );
       }
       if (filterField && filterValue) {
         where[filterField] = { equals: filterValue };
