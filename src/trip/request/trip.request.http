@@ -19,36 +19,43 @@ Content-Type: application/json
 Cookie: jwtToken:{{jwtToken}}
 
 {
-    "busId": ["462a8679-726e-4937-b39a-31d3af370572","6e6f2620-af3c-48a1-8c68-e83b5f97dd68"],
-    "routeId": "04b01bc6-06ce-42ef-950c-1244f4bb5608",
+    "buses": ["cmfazm3uv0000cpfqsjptl1yh","cmfazm3v2001gcpfqahlfbtnv"],
+    "routeId": "cmfazmkrv005scpfql13tut9f",
     "departureTime" : "2025-09-07T04:00:00.000Z",
     "arrivalTime" : "2025-09-07T16:00:00.000Z",
     "status" : "SCHEDULED"
 }
 
+### create multiple trip
+POST {{baseUrl}}/trip/bulk
+Content-Type: application/json
+Cookie: jwtToken:{{jwtToken}}
+
+[
+    {"buses": ["cmfazm3uv0000cpfqsjptl1yh"],"routeId": "cmfazmkrv0067cpfqdvk6b1eq", "departureTime" : "2025-09-11T04:00:00.000Z", "arrivalTime": "2025-09-11T04:00:00.000Z"},
+    {"buses": ["cmfazm3vb004ccpfqqizksyui"],"routeId": "cmfazmkrv0068cpfqfagb5s60", "departureTime" : "2025-09-12T04:00:00.000Z", "arrivalTime": "2025-09-12T04:00:00.000Z"}
+]
+
 ### get trips with pagination, filter, sort and search
-GET {{baseUrl}}/trip?page=1&perPage=10&sortField=createdAt&sortOrder=desc
+GET {{baseUrl}}/trip?page=1&perPage=10&sortField=createdAt&sortOrder=desc&search=2025-09-11T04:00:00.000Z
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 ### search trip with id 
-GET  {{baseUrl}}/trip?e366c35f-ca8b-40ae-ad95-f4674ce69b68
+GET  {{baseUrl}}/trip?cmfazocms006lcpfq9bol5nqm
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 ### update trip
-PATCH {{baseUrl}}/trip?e366c35f-ca8b-40ae-ad95-f4674ce69b68
+PATCH {{baseUrl}}/trip/cmfazocms006lcpfq9bol5nqm
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 {
-    "departureTime" : "2025-09-09T04:00:00.000Z",
-    "arrivalTime" : "2025-09-09T16:00:00.000Z",
-    "status" : "SCHEDULED"
+    "buses": ["cmfazm3v2001gcpfqahlfbtnv","cmfazm3v6002wcpfq0jotjmx0"]
 }
 
-
 ### delete trip with id
-DELETE {{baseUrl}}/trip/cbe4c849-a37d-42c3-9863-e1a2a45ae6fc
+DELETE {{baseUrl}}/trip/cmfazocms006lcpfq9bol5nqm
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}

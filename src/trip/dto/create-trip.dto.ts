@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const createTripSchema = z.object({
-  busId: z
+  buses: z
     .array(z.string())
     .min(1, 'busID is required')
     .min(1, 'busID is required'),

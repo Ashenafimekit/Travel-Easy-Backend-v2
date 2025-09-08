@@ -22,6 +22,11 @@ export class TripController {
     return this.tripService.create(createTripDto);
   }
 
+  @Post('/bulk')
+  createMany(@Body() createTripDto: CreateTripDto[]) {
+    return this.tripService.createMany(createTripDto);
+  }
+
   @Get()
   findAll(@Query() query: TripQueryDto) {
     return this.tripService.findAll(query);

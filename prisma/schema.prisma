@@ -138,6 +138,8 @@ model Trip {
   buses     Bus[]      @relation("TripBus")
   bookings  Booking[]
   feedbacks Feedback[]
+
+  // @@unique([routeId, departureTime, arrivalTime, driverId]) // prevent duplicate trips 
 }
 
 enum TripStatus {
