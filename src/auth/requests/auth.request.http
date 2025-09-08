@@ -12,7 +12,7 @@ Content-Type: application/json
 ### Get token
 @jwtToken = {{login.response.body.jwtToken}}
 
-### Register User 
+### Register Admin and Super-Admin
 POST {{baseUrl}}/auth/signup
 Content-Type: application/json
 
@@ -23,7 +23,7 @@ Content-Type: application/json
     "password": "Melos@TE",
     "role": "SUPER_ADMIN"
 }
-### another user 
+### register Passenger 
 POST {{baseUrl}}/auth/signup
 Content-Type: application/json
 

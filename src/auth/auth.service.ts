@@ -74,17 +74,33 @@ export class AuthService {
       const salt = Number(process.env.SALT_ROUND) || 10;
       const hashedPassword = await bcrypt.hash(password, salt);
 
-      const user = await this.prisma.user.create({
-        data: {
-          name: createUserDto.name,
-          email: createUserDto.email,
-          phone: createUserDto.phone,
-          password: hashedPassword,
-          role: createUserDto.role,
-        },
+      return await this.prisma.$transaction(async (tx) => {
+        const user = await tx.user.create({
+          data: {
+            name: createUserDto.name,
+            email: createUserDto.email,
+            phone: createUserDto.phone,
+            password: hashedPassword,
+            role: createUserDto.role,
+          },
+          include: {
+            passenger: true,
+            staff: true,
+            notifications: true,
+          },
+        });
+
+        if (user.role === 'PASSENGER') {
+          await tx.passenger.create({
+            data: {
+              userId: user.id,
+            },
+          });
+        }
+
+        const { password: _, ...safeUser } = user;
+        return safeUser;
       });
-      const { password: _, ...safeUser } = user;
-      return safeUser;
     } catch (error: any) {
       this.logger.error(`internal server error`);
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
