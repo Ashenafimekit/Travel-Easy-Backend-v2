@@ -34,6 +34,11 @@ Cookie: jwtToken={{jwtToken}}
     { "busNumber": 104, "capacity": 51 }
 ]
 
+### seed 100 buses
+GET {{baseUrl}}/bus/seed
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
 ### search bus by id
 GET  {{baseUrl}}/bus/03d9b389-81e7-4a05-8875-d0ac519750a1
 Content-Type: application/json

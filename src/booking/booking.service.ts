@@ -36,7 +36,7 @@ export class BookingService {
           data: {
             tripId,
             // passengerId: user.id,
-            passengerId: 'cmfb6stzh0002cpfpkdkvtloo',
+            passengerId: 'cmfbj9txo040mnl7d8te53dmf',
             totalAmount,
           },
           include: {

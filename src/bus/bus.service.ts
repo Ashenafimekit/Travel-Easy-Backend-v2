@@ -3,7 +3,7 @@ import { CreateBusDto } from './dto/create-bus.dto';
 import { UpdateBusDto } from './dto/update-bus.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { BusQueryDto } from './dto/bus-query.dto';
-import { Prisma } from '@prisma/client';
+import { Bus, Prisma } from '@prisma/client';
 
 @Injectable()
 export class BusService {
@@ -62,6 +62,38 @@ export class BusService {
 
         return buses.length;
       });
+    } catch (error: any) {
+      this.logger.error(error);
+      if (error instanceof HttpException) throw error;
+      if (error instanceof Error) throw error;
+      throw new Error('internal server error');
+    }
+  }
+
+  async add100() {
+    try {
+      const buses: Bus[] = [];
+
+      for (let i = 0; i < 100; i++) {
+        const bus = await this.prisma.bus.create({
+          data: {
+            busNumber: i + 1,
+            capacity: 51,
+          },
+        });
+
+        const seats = Array.from({ length: 51 }, (_, index) => ({
+          seatNumber: `S${index + 1}`,
+          busId: bus.id,
+        }));
+
+        await this.prisma.seat.createMany({
+          data: seats,
+          skipDuplicates: true,
+        });
+        buses.push(bus);
+      }
+      return buses.length;
     } catch (error: any) {
       this.logger.error(error);
       if (error instanceof HttpException) throw error;

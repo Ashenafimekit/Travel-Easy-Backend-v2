@@ -19,6 +19,7 @@ Content-Type: application/json
 {
     "departure" : "HARAR",
     "destination": "ADDIS ABABA",
+    "price" : 1800,
     "distanceKm" : 530,
     "estimatedDuration" : 10.42
 }
@@ -31,168 +32,196 @@ Content-Type: application/json
   {
     "departure": "ADDIS ABABA",
     "destination": "DIRE DAWA",
+    "price" : 1800,
     "distanceKm": 445,
     "estimatedDuration": 8.0
   },
   {
     "departure": "DIRE DAWA",
     "destination": "ADDIS ABABA",
+    "price" : 1800,
     "distanceKm": 445,
     "estimatedDuration": 8.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "HARAR",
+    "price" : 1900,
     "distanceKm": 526,
     "estimatedDuration": 10.0
   },
   {
     "departure": "HARAR",
     "destination": "ADDIS ABABA",
+    "price" : 1900,
     "distanceKm": 526,
     "estimatedDuration": 10.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "ADAMA (NAZRET)",
+    "price" : 500,
     "distanceKm": 99,
     "estimatedDuration": 2.0
   },
   {
     "departure": "ADAMA (NAZRET)",
     "destination": "ADDIS ABABA",
+    "price" : 500,
     "distanceKm": 99,
     "estimatedDuration": 2.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "BAHIR DAR",
+    "price" : 2000,
     "distanceKm": 565,
     "estimatedDuration": 10.0
   },
   {
     "departure": "BAHIR DAR",
     "destination": "ADDIS ABABA",
+    "price" : 2000,
     "distanceKm": 565,
     "estimatedDuration": 10.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "GONDAR",
+    "price" : 2500,
     "distanceKm": 725,
     "estimatedDuration": 13.0
   },
   {
     "departure": "GONDAR",
     "destination": "ADDIS ABABA",
+    "price" : 2500,
     "distanceKm": 725,
     "estimatedDuration": 13.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "MEKELE",
+    "price" : 3000,
     "distanceKm": 780,
     "estimatedDuration": 14.0
   },
   {
     "departure": "MEKELE",
     "destination": "ADDIS ABABA",
+    "price" : 3000,
     "distanceKm": 780,
     "estimatedDuration": 14.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "DESSIE",
+    "price" : 1500,
     "distanceKm": 400,
     "estimatedDuration": 7.0
   },
   {
     "departure": "DESSIE",
     "destination": "ADDIS ABABA",
+    "price" : 1500,
     "distanceKm": 400,
     "estimatedDuration": 7.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "JIMMA",
+    "price" : 1500,
     "distanceKm": 350,
     "estimatedDuration": 6.5
   },
   {
     "departure": "JIMMA",
     "destination": "ADDIS ABABA",
+    "price" : 1500,
     "distanceKm": 350,
     "estimatedDuration": 6.5
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "HAWASSA",
+    "price" : 800,
     "distanceKm": 275,
     "estimatedDuration": 5.0
   },
   {
     "departure": "HAWASSA",
     "destination": "ADDIS ABABA",
+    "price" : 800,
     "distanceKm": 275,
     "estimatedDuration": 5.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "ARBAMINCH",
+    "price" : 1900,
     "distanceKm": 505,
     "estimatedDuration": 9.0
   },
   {
     "departure": "ARBAMINCH",
     "destination": "ADDIS ABABA",
+    "price" : 1900,
     "distanceKm": 505,
     "estimatedDuration": 9.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "NEKEMTE",
+    "price" : 1000,
     "distanceKm": 331,
     "estimatedDuration": 6.0
   },
   {
     "departure": "NEKEMTE",
     "destination": "ADDIS ABABA",
+    "price" : 1000,
     "distanceKm": 331,
     "estimatedDuration": 6.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "ASSOSA",
+    "price" : 2000,
     "distanceKm": 660,
     "estimatedDuration": 12.0
   },
   {
     "departure": "ASSOSA",
     "destination": "ADDIS ABABA",
+    "price" : 2000,
     "distanceKm": 660,
     "estimatedDuration": 12.0
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "SEMERA",
+    "price" : 1900,
     "distanceKm": 580,
     "estimatedDuration": 10.5
   },
   {
     "departure": "SEMERA",
     "destination": "ADDIS ABABA",
+    "price" : 1900,
     "distanceKm": 580,
     "estimatedDuration": 10.5
   },
   {
     "departure": "ADDIS ABABA",
     "destination": "GAMBELLA",
+    "price" : 2200,
     "distanceKm": 777,
     "estimatedDuration": 14.0
   },
   {
     "departure": "GAMBELLA",
     "destination": "ADDIS ABABA",
+    "price" : 2200,
     "distanceKm": 777,
     "estimatedDuration": 14.0
   }

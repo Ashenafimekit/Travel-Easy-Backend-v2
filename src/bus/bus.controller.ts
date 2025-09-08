@@ -32,6 +32,17 @@ export class BusController {
   }
 
   // @UseGuards(JwtAuthGuard)
+  @Get('/seed')
+  seed() {
+    return this.busService.add100();
+  }
+
+  @Get('/add100')
+  add100() {
+    return this.busService.add100();
+  }
+
+  // @UseGuards(JwtAuthGuard)
   @Get()
   findAll(@Query() query: BusQueryDto) {
     return this.busService.findAll(query);
