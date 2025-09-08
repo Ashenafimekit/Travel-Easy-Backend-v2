@@ -19,7 +19,10 @@ export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @Post()
-  create(@Body() createBookingDto: CreateBookingDto, @CurrentUser() user: any) {
+  create(
+    @Body() createBookingDto: CreateBookingDto,
+    @CurrentUser() user: { id: string },
+  ) {
     return this.bookingService.create(createBookingDto, user);
   }
 
