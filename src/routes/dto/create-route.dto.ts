@@ -4,6 +4,7 @@ export const CreateRouteDtoSchema = z.object({
   departure: z.string(),
   destination: z.string(),
   distanceKm: z.float32(),
+  price: z.float32(),
   estimatedDuration: z.float32(),
 });
 
