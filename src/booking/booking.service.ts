@@ -9,7 +9,10 @@ import { Prisma } from '@prisma/client';
 export class BookingService {
   private logger = new Logger(BookingService.name, { timestamp: true });
   constructor(private readonly prisma: PrismaService) {}
-  async create(createBookingDto: CreateBookingDto, user: { userId: string }) {
+  async create(
+    createBookingDto: CreateBookingDto,
+    user: { userId: string; role: string },
+  ) {
     try {
       return await this.prisma.$transaction(async (tx) => {
         const { seatId, tripId, totalAmount } = createBookingDto;
@@ -36,15 +39,17 @@ export class BookingService {
           where: { userId: user.userId },
         });
 
-        if (!passenger) {
-          throw new HttpException('Passenger not found', 404);
-        }
+        // find staff
+        const staff = await tx.staff.findUnique({
+          where: { userId: user.userId },
+        });
 
         // Create booking
         const booking = await tx.booking.create({
           data: {
             tripId,
             passengerId: passenger?.id,
+            staffId: staff?.id,
             totalAmount,
           },
           include: {
@@ -106,7 +111,28 @@ export class BookingService {
           include: {
             passenger: {
               include: {
-                user: true,
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    role: true,
+                  },
+                },
+              },
+            },
+            staff: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    role: true,
+                  },
+                },
               },
             },
             trip: true,
@@ -174,6 +200,19 @@ export class BookingService {
                 },
               },
             },
+            staff: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    role: true,
+                  },
+                },
+              },
+            },
             trip: true,
             tickets: true,
           },
@@ -202,6 +241,19 @@ export class BookingService {
         where: { id: id, deletedAt: null },
         include: {
           passenger: true,
+          staff: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  phone: true,
+                  role: true,
+                },
+              },
+            },
+          },
           trip: true,
           tickets: true,
         },

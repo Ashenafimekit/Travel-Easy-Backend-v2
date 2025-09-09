@@ -19,8 +19,8 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 {
-    "buses": ["cmfckf9te0000cpivrp05gd6s","cmfckf9uw001gcpivzy62xc9o"],
-    "routeId": "cmfckj1hv0000cphpwyf3hmzl",
+    "buses": ["cmfco3d7a0006cppj1m5wfcu9","cmfco3d7k001mcppjqeqzgfkn"],
+    "routeId": "cmfco5aiz046ecppjzwewtuzf",
     "departureTime" : "2025-09-09T22:00:00.000Z",
     "arrivalTime" : "2025-09-09T10:00:00.000Z"
 }

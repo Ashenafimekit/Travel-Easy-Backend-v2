@@ -5,7 +5,7 @@ POST {{baseUrl}}/auth/signin
 Content-Type: application/json
 
 {
-    "phone" : "977681970",
+    "phone" : "942240594",
     "password" : "Melos@TE"
 }
 
@@ -18,8 +18,8 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 {
-    "tripId" : "cmfcl8esj0003cp22oj38wxug",
-    "seatId" : ["cmfckf9u90001cpiv973ajcmk","cmfckf9u90002cpivr1ow6pxa"],
+    "tripId" : "cmfco6kvm0477cppjr0nzpmzv",
+    "seatId" : ["cmfco3d7e0007cppjbwpovbdx","cmfco3d7e0008cppju3m9go9r"],
     "totalAmount" : 1890
 }
 
@@ -30,7 +30,7 @@ Cookie: jwtToken={{jwtToken}}
 
 
 ### search trip with id 
-GET  {{baseUrl}}/booking/cmfb6v0690001cp21tvqowzhm
+GET  {{baseUrl}}/booking/cmfco83fg0479cppjcx1lmzut
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 

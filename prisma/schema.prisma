@@ -29,8 +29,6 @@ model User {
 enum Role {
   PASSENGER
   STAFF
-  ADMIN
-  SUPER_ADMIN
 }
 
 model Passenger {
@@ -50,21 +48,22 @@ model Staff {
   id            String        @id @default(cuid())
   userId        String        @unique
   position      StaffPosition
-  licenseNumber String?
   hireDate      DateTime      @default(now())
   isDeleted     Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   deletedAt     DateTime?
 
-  user  User   @relation(fields: [userId], references: [id])
-  trips Trip[]
+  user    User      @relation(fields: [userId], references: [id])
+  trips   Trip[]
+  Booking Booking[]
 }
 
 enum StaffPosition {
+  SUPER_ADMIN
+  ADMIN
+  TICKETER
   DRIVER
-  CONDUCTOR
-  SUPERVISOR
 }
 
 model Bus {
@@ -152,7 +151,8 @@ enum TripStatus {
 
 model Booking {
   id          String        @id @default(cuid())
-  passengerId String
+  passengerId String? // nullable for staff bookings
+  staffId     String? // nullable for passenger bookings
   tripId      String
   bookingDate DateTime      @default(now())
   status      BookingStatus @default(PENDING)
@@ -162,8 +162,9 @@ model Booking {
   updatedAt   DateTime      @updatedAt
   deletedAt   DateTime?
 
-  passenger Passenger @relation(fields: [passengerId], references: [id])
-  trip      Trip      @relation(fields: [tripId], references: [id])
+  passenger Passenger? @relation(fields: [passengerId], references: [id])
+  staff     Staff?     @relation(fields: [staffId], references: [id])
+  trip      Trip       @relation(fields: [tripId], references: [id])
   tickets   Ticket[]
   payment   Payment?
 }

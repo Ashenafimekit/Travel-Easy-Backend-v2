@@ -24,7 +24,7 @@ export class BookingController {
   @Post()
   create(
     @Body() createBookingDto: CreateBookingDto,
-    @CurrentUser() user: { userId: string },
+    @CurrentUser() user: { userId: string; role: string },
   ) {
     return this.bookingService.create(createBookingDto, user);
   }

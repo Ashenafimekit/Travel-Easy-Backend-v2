@@ -98,6 +98,15 @@ export class AuthService {
           });
         }
 
+        if (user.role === 'STAFF') {
+          await tx.staff.create({
+            data: {
+              userId: user.id,
+              position: createUserDto.staffPosition,
+            },
+          });
+        }
+
         const { password: _, ...safeUser } = user;
         return safeUser;
       });
