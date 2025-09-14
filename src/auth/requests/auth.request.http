@@ -21,7 +21,8 @@ Content-Type: application/json
     "email": "ashumekit502@gmail.com",
     "phone": "942240594",
     "password": "Melos@TE",
-    "role": "SUPER_ADMIN"
+    "role": "STAFF",
+    "staffPosition": "SUPER_ADMIN"
 }
 ### register Passenger 
 POST {{baseUrl}}/auth/signup

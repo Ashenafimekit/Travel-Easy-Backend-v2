@@ -5,7 +5,7 @@ POST {{baseUrl}}/auth/signin
 Content-Type: application/json
 
 {
-    "phone" : "0942240594",
+    "phone" : "942240594",
     "password" : "Melos@TE"
 }
 
@@ -15,6 +15,7 @@ Content-Type: application/json
 ### add single route
 POST {{baseUrl}}/routes
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 {
     "departure" : "HARAR",
@@ -27,6 +28,7 @@ Content-Type: application/json
 ### add bulk routes
 POST {{baseUrl}}/routes/bulk
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 [
   {
@@ -231,19 +233,23 @@ Content-Type: application/json
 ### search bus by id
 GET  {{baseUrl}}/routes/fa0dce5d-ebc9-4376-82ed-bd7e12509e47
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 ### get paginated, filtered and sorted buses
 GET {{baseUrl}}/routes?page=1&perPage=10&filterField=type&filterValue=STANDARD&sortField=createdAt&sortOrder=desc
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 
 ### get all buses
 GET {{baseUrl}}/routes?all=true
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 ### update bus with id
 PATCH {{baseUrl}}/routes/fa0dce5d-ebc9-4376-82ed-bd7e12509e47
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
 
 {
     "estimatedDuration" : 10.42
@@ -253,3 +259,4 @@ Content-Type: application/json
 ### delete bus by id
 DELETE {{baseUrl}}/routes/6790c743-18a2-447b-854d-54cd05817119
 Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}

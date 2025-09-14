@@ -13,6 +13,15 @@ export class TripService {
   async create(createTripDto: CreateTripDto) {
     try {
       const { buses, ...tripData } = createTripDto;
+
+      const CurrentDate = new Date();
+      const departureTime = new Date(tripData.departureTime);
+
+      if (departureTime < CurrentDate)
+        throw new HttpException(
+          'Departure time must be greater than current time',
+          400,
+        );
       const trip = await this.prisma.trip.create({
         data: {
           ...tripData,

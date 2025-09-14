@@ -16,20 +16,19 @@ Content-Type: application/json
 ### create trip 
 POST {{baseUrl}}/trip
 Content-Type: application/json
-Cookie: jwtToken:{{jwtToken}}
+Cookie: jwtToken={{jwtToken}}
 
 {
-    "buses": ["cmfazm3uv0000cpfqsjptl1yh","cmfazm3v2001gcpfqahlfbtnv"],
-    "routeId": "cmfazmkrv005scpfql13tut9f",
-    "departureTime" : "2025-09-07T04:00:00.000Z",
-    "arrivalTime" : "2025-09-07T16:00:00.000Z",
-    "status" : "SCHEDULED"
+    "buses": ["cmfco3d7a0006cppj1m5wfcu9","cmfco3d7k001mcppjqeqzgfkn"],
+    "routeId": "cmfco5aiz046ecppjzwewtuzf",
+    "departureTime" : "2025-09-09T22:00:00.000Z",
+    "arrivalTime" : "2025-09-09T10:00:00.000Z"
 }
 
 ### create multiple trip
 POST {{baseUrl}}/trip/bulk
 Content-Type: application/json
-Cookie: jwtToken:{{jwtToken}}
+Cookie: jwtToken={{jwtToken}}
 
 [
     {"buses": ["cmfbj5bvf0000nl7dvbzazjk8"],"routeId": "cmfbitxnf002snlf6twl4or4w", "departureTime" : "2025-09-11T04:00:00.000Z", "arrivalTime": "2025-09-11T04:00:00.000Z"},

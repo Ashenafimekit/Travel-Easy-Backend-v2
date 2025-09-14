@@ -6,9 +6,11 @@ export const UserSchema = z.object({
   email: z.email().optional(),
   phone: z.string().min(10).max(15),
   password: z.string().min(6).max(100),
-  role: z
-    .enum(['PASSENGER', 'STAFF', 'ADMIN', 'SUPER_ADMIN'])
-    .default('PASSENGER'),
+  role: z.enum(['PASSENGER', 'STAFF']).default('PASSENGER'),
+  staffPosition: z
+    .enum(['SUPER_ADMIN', 'ADMIN', 'TICKETER', 'DRIVER'])
+    .optional()
+    .default('TICKETER'),
 });
 
 export type User = z.infer<typeof UserSchema>;

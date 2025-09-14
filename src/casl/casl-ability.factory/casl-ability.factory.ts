@@ -35,7 +35,7 @@ export class CaslAbilityFactory {
       createMongoAbility,
     );
 
-    if (user.role === 'ADMIN') {
+    if (user.role === 'STAFF') {
       can(Action.Manage, 'all');
     } else if (user.role === 'PASSENGER') {
       can(Action.Read, Booking);

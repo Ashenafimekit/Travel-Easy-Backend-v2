@@ -18,8 +18,8 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 {
-    "tripId" : "cmfbj6zlr040gnl7d8e21rc59",
-    "seatId" : ["cmfbj5bvw0001nl7d5zubafga","cmfbj5bvw0002nl7dhqx7jmtx"],
+    "tripId" : "cmfco6kvm0477cppjr0nzpmzv",
+    "seatId" : ["cmfco3d7e0007cppjbwpovbdx","cmfco3d7e0008cppju3m9go9r"],
     "totalAmount" : 1890
 }
 
@@ -30,7 +30,7 @@ Cookie: jwtToken={{jwtToken}}
 
 
 ### search trip with id 
-GET  {{baseUrl}}/booking/cmfb6v0690001cp21tvqowzhm
+GET  {{baseUrl}}/booking/cmfco83fg0479cppjcx1lmzut
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 

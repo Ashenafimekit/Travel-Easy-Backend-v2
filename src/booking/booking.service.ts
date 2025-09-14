@@ -9,7 +9,10 @@ import { Prisma } from '@prisma/client';
 export class BookingService {
   private logger = new Logger(BookingService.name, { timestamp: true });
   constructor(private readonly prisma: PrismaService) {}
-  async create(createBookingDto: CreateBookingDto, user: { id: string }) {
+  async create(
+    createBookingDto: CreateBookingDto,
+    user: { userId: string; role: string },
+  ) {
     try {
       return await this.prisma.$transaction(async (tx) => {
         const { seatId, tripId, totalAmount } = createBookingDto;
@@ -31,12 +34,22 @@ export class BookingService {
           );
         }
 
+        // find passenger
+        const passenger = await tx.passenger.findUnique({
+          where: { userId: user.userId },
+        });
+
+        // find staff
+        const staff = await tx.staff.findUnique({
+          where: { userId: user.userId },
+        });
+
         // Create booking
         const booking = await tx.booking.create({
           data: {
             tripId,
-            // passengerId: user.id,
-            passengerId: 'cmfbj9txo040mnl7d8te53dmf',
+            passengerId: passenger?.id,
+            staffId: staff?.id,
             totalAmount,
           },
           include: {
@@ -96,7 +109,32 @@ export class BookingService {
           orderBy: { [sortField]: sortOrder },
           where: { deletedAt: null },
           include: {
-            passenger: true,
+            passenger: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    role: true,
+                  },
+                },
+              },
+            },
+            staff: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    role: true,
+                  },
+                },
+              },
+            },
             trip: true,
             tickets: true,
           },
@@ -149,7 +187,32 @@ export class BookingService {
           take,
           orderBy: { [sortField]: sortOrder },
           include: {
-            passenger: true,
+            passenger: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    role: true,
+                  },
+                },
+              },
+            },
+            staff: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    phone: true,
+                    role: true,
+                  },
+                },
+              },
+            },
             trip: true,
             tickets: true,
           },
@@ -178,6 +241,19 @@ export class BookingService {
         where: { id: id, deletedAt: null },
         include: {
           passenger: true,
+          staff: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  name: true,
+                  email: true,
+                  phone: true,
+                  role: true,
+                },
+              },
+            },
+          },
           trip: true,
           tickets: true,
         },
