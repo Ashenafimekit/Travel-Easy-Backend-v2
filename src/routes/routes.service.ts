@@ -83,18 +83,16 @@ export class RoutesService {
         };
       }
 
-      const where: Prisma.RouteWhereInput = {};
+      const where: Prisma.RouteWhereInput = { deletedAt: null };
 
       if (search) {
         where.OR = [
-          { deletedAt: null },
           { destination: { contains: search, mode: 'insensitive' } },
           { departure: { contains: search, mode: 'insensitive' } },
         ];
       }
       if (filterField && filterValue) {
         where[filterField] = { equals: filterValue };
-        where.deletedAt = null;
       }
 
       const [routes, total] = await Promise.all([
@@ -124,7 +122,9 @@ export class RoutesService {
 
   async findOne(id: string) {
     try {
-      const route = await this.prisma.route.findUnique({ where: { id: id } });
+      const route = await this.prisma.route.findUnique({
+        where: { id: id, deletedAt: null },
+      });
       if (!route) throw new HttpException('Route not found', 404);
       return route;
     } catch (error) {
