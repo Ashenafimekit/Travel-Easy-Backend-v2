@@ -213,7 +213,7 @@ export class BusService {
   async update(id: string, updateBusDto: UpdateBusDto) {
     try {
       const checkBus = await this.prisma.bus.findUnique({
-        where: { busNumber: updateBusDto.busNumber },
+        where: { id },
       });
       if (!checkBus) throw new HttpException('Bus not found', 404);
 
