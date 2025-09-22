@@ -147,6 +147,7 @@ export class AuthService {
       id: exitingUser.id,
       name: exitingUser.name,
       phone: exitingUser.phone,
+      role: exitingUser.role,
       jwtToken: token,
     };
   }
