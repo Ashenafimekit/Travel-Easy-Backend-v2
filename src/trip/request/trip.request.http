@@ -31,8 +31,8 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 [
-    {"buses": ["cmfbj5bvf0000nl7dvbzazjk8"],"routeId": "cmfbitxnf002snlf6twl4or4w", "departureTime" : "2025-09-11T04:00:00.000Z", "arrivalTime": "2025-09-11T04:00:00.000Z"},
-    {"buses": ["cmfbj5bw5001gnl7d5xldlx4m","cmfbj5bws002wnl7dmi52cuz0"],"routeId": "cmfbitxnf002tnlf6c89f07yi", "departureTime" : "2025-09-12T04:00:00.000Z", "arrivalTime": "2025-09-12T04:00:00.000Z"}
+    {"buses": ["cmftnk3ei0006ahtl58sh4jha"],"routeId": "cmftnov6k040mahtlvsn6xz3t", "departureTime" : "2025-10-11T04:00:00.000Z", "arrivalTime": "2025-10-11T04:00:00.000Z"},
+    {"buses": ["cmftnk3fh001mahtlmoop60pr","cmftnk3fw0032ahtlih7q3w50"],"routeId": "cmftnov6k040nahtlthd1c88t", "departureTime" : "2025-10-12T04:00:00.000Z", "arrivalTime": "2025-10-12T04:00:00.000Z"}
 ]
 
 ### get trips with pagination, filter, sort and search

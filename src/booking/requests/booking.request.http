@@ -18,8 +18,8 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 {
-    "tripId" : "cmfco6kvm0477cppjr0nzpmzv",
-    "seatId" : ["cmfco3d7e0007cppjbwpovbdx","cmfco3d7e0008cppju3m9go9r"],
+    "tripId" : "cmftntnqt041eahtl2ne47oob",
+    "seatId" : ["cmftnk3f20007ahtlvv6h8tjc","cmftnk3f20008ahtl9pc89c5l"],
     "totalAmount" : 1890
 }
 
