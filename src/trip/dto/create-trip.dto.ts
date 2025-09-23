@@ -7,8 +7,7 @@ export const createTripSchema = z.object({
     .min(1, 'busID is required'),
   routeId: z.string().min(1, 'routeID is required'),
   driverId: z.string().optional(),
-  departureTime: z.coerce.date(),
-  arrivalTime: z.coerce.date(),
+  tripDate: z.coerce.date(),
   status: z
     .enum(['SCHEDULED', 'ONGOING', 'COMPLETED', 'CANCELLED'])
     .default('SCHEDULED'),

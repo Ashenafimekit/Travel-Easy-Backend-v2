@@ -15,11 +15,11 @@ export class TripService {
       const { buses, ...tripData } = createTripDto;
 
       const CurrentDate = new Date();
-      const departureTime = new Date(tripData.departureTime);
+      const tripDate = new Date(tripData.tripDate);
 
-      if (departureTime < CurrentDate)
+      if (tripDate < CurrentDate)
         throw new HttpException(
-          'Departure time must be greater than current time',
+          'Trip date must be greater than current date',
           400,
         );
       const trip = await this.prisma.trip.create({
@@ -46,8 +46,7 @@ export class TripService {
         createTripDto.map((trip) =>
           this.prisma.trip.create({
             data: {
-              departureTime: trip.departureTime,
-              arrivalTime: trip.arrivalTime,
+              tripDate: trip.tripDate,
               status: trip.status,
               route: { connect: { id: trip.routeId } },
               driver: trip.driverId
@@ -148,10 +147,7 @@ export class TripService {
           const endOfDay = new Date(date);
           endOfDay.setHours(23, 59, 59, 999);
 
-          where.OR.push(
-            { departureTime: { gte: startOfDay, lte: endOfDay } },
-            { arrivalTime: { gte: startOfDay, lte: endOfDay } },
-          );
+          where.OR.push({ tripDate: { gte: startOfDay, lte: endOfDay } });
         }
 
         // Always search text fields for route
@@ -199,8 +195,7 @@ export class TripService {
                 },
               },
             },
-            departureTime: true,
-            arrivalTime: true,
+            tripDate: true,
             driverId: true,
             status: true,
             feedbacks: true,

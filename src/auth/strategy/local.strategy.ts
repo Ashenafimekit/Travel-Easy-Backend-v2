@@ -12,7 +12,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(phone: string, password: string): Promise<any> {
-    const formatedPhone = phone.split('+251').join('');
+    const formatedPhone = phone.split('+251').join('').trim();
 
     const user = await this.authService.validateUser(formatedPhone, password);
     if (!user) {

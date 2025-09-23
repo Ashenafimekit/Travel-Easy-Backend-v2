@@ -38,6 +38,7 @@ export class AuthService {
           user.password,
         );
         if (isPasswordValid) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { password, ...rest } = user;
           return rest;
         } else {
@@ -107,7 +108,8 @@ export class AuthService {
           });
         }
 
-        const { password: _, ...safeUser } = user;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...safeUser } = user;
         return safeUser;
       });
     } catch (error: any) {

@@ -257,6 +257,6 @@ Cookie: jwtToken={{jwtToken}}
 
  
 ### delete bus by id
-DELETE {{baseUrl}}/routes/6790c743-18a2-447b-854d-54cd05817119
+DELETE {{baseUrl}}/routes/cmfwjsp9l0008ah4cija7j5b0
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}

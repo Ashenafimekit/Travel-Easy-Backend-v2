@@ -21,8 +21,7 @@ Cookie: jwtToken={{jwtToken}}
 {
     "buses": ["cmfco3d7a0006cppj1m5wfcu9","cmfco3d7k001mcppjqeqzgfkn"],
     "routeId": "cmfco5aiz046ecppjzwewtuzf",
-    "departureTime" : "2025-09-09T22:00:00.000Z",
-    "arrivalTime" : "2025-09-09T10:00:00.000Z"
+    "tripDate" : "2025-10-15T04:00:00.000Z",
 }
 
 ### create multiple trip
@@ -31,8 +30,8 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 [
-    {"buses": ["cmftnk3ei0006ahtl58sh4jha"],"routeId": "cmftnov6k040mahtlvsn6xz3t", "departureTime" : "2025-10-11T04:00:00.000Z", "arrivalTime": "2025-10-11T04:00:00.000Z"},
-    {"buses": ["cmftnk3fh001mahtlmoop60pr","cmftnk3fw0032ahtlih7q3w50"],"routeId": "cmftnov6k040nahtlthd1c88t", "departureTime" : "2025-10-12T04:00:00.000Z", "arrivalTime": "2025-10-12T04:00:00.000Z"}
+    {"buses": ["cmfwjw0gb006tah4cq5502o1h"],"routeId": "cmfwjsp9l0008ah4cija7j5b0", "tripDate" : "2025-10-11T04:00:00.000Z"},
+    {"buses": ["cmfwjw0gp0089ah4cwzhgc257","cmfwjw0h1009pah4cy8qf1ati"],"routeId": "cmfwjt9qk0009ah4ccyli09o3", "tripDate" : "2025-10-12T04:00:00.000Z"}
 ]
 
 ### get trips with pagination, filter, sort and search
@@ -55,6 +54,6 @@ Cookie: jwtToken={{jwtToken}}
 }
 
 ### delete trip with id
-DELETE {{baseUrl}}/trip/cmfazocms006lcpfq9bol5nqm
+DELETE {{baseUrl}}/trip/cmftntnqw041fahtlrdyrr2id
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
