@@ -5,7 +5,7 @@ POST {{baseUrl}}/auth/signin
 Content-Type: application/json
 
 {
-    "phone" : "942240594",
+    "phone" : "977681970",
     "password" : "Melos@TE"
 }
 
@@ -18,8 +18,8 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 {
-    "tripId" : "cmftntnqt041eahtl2ne47oob",
-    "seatId" : ["cmftnk3f20007ahtlvv6h8tjc","cmftnk3f20008ahtl9pc89c5l"],
+    "tripId" : "cmfxpliv0041hcphd2ouhxo59",
+    "seatId" : ["cmfxplipy03v3cphdoacf3y8q","cmfxplipy03v5cphdawdjf04v"],
     "totalAmount" : 1890
 }
 

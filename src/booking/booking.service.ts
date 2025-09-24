@@ -135,8 +135,34 @@ export class BookingService {
                 },
               },
             },
-            trip: true,
-            tickets: true,
+            trip: {
+              include: {
+                route: {
+                  select: {
+                    id: true,
+                    departure: true,
+                    destination: true,
+                    price: true,
+                    distanceKm: true,
+                    estimatedDuration: true,
+                  },
+                },
+                buses: {
+                  select: {
+                    id: true,
+                    busNumber: true,
+                    type: true,
+                    capacity: true,
+                    status: true,
+                  },
+                },
+              },
+            },
+            tickets: {
+              include: {
+                seat: true,
+              },
+            },
           },
         });
         const total = bookings.length;
@@ -213,8 +239,34 @@ export class BookingService {
                 },
               },
             },
-            trip: true,
-            tickets: true,
+            trip: {
+              include: {
+                route: {
+                  select: {
+                    id: true,
+                    departure: true,
+                    destination: true,
+                    price: true,
+                    distanceKm: true,
+                    estimatedDuration: true,
+                  },
+                },
+                buses: {
+                  select: {
+                    id: true,
+                    busNumber: true,
+                    type: true,
+                    capacity: true,
+                    status: true,
+                  },
+                },
+              },
+            },
+            tickets: {
+              include: {
+                seat: true,
+              },
+            },
           },
         }),
         this.prisma.booking.count({ where }),
@@ -254,8 +306,34 @@ export class BookingService {
               },
             },
           },
-          trip: true,
-          tickets: true,
+          trip: {
+            include: {
+              route: {
+                select: {
+                  id: true,
+                  departure: true,
+                  destination: true,
+                  price: true,
+                  distanceKm: true,
+                  estimatedDuration: true,
+                },
+              },
+              buses: {
+                select: {
+                  id: true,
+                  busNumber: true,
+                  type: true,
+                  capacity: true,
+                  status: true,
+                },
+              },
+            },
+          },
+          tickets: {
+            include: {
+              seat: true,
+            },
+          },
         },
       });
       if (!booking) throw new HttpException('Booking not found', 404);
