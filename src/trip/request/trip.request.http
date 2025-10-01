@@ -39,6 +39,16 @@ GET {{baseUrl}}/trip?page=1&perPage=10&sortField=createdAt&sortOrder=desc
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
+### search trip with routeId and tripDate
+GET {{baseUrl}}/trip/search
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+{
+    "routeId" : "cmg2i6t3y040lahyo3cw5c25f",
+    "tripDate" : "2025-10-23"
+}
+
 ### search trip with id 
 GET  {{baseUrl}}/trip/cmfazocms006lcpfq9bol5nqm
 Content-Type: application/json

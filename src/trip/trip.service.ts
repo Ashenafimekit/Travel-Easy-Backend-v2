@@ -5,6 +5,8 @@ import { UpdateTripDto } from './dto/update-trip.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma, Trip } from '@prisma/client';
 import { TripQueryDto } from './dto/trip-query.dto';
+import { SearchTripDto } from './dto/search-trip-query.dto';
+import { endOfDay, startOfDay } from 'date-fns';
 
 @Injectable()
 export class TripService {
@@ -170,6 +172,9 @@ export class TripService {
           orderBy: { [sortField]: sortOrder },
           select: {
             id: true,
+            tripDate: true,
+            driverId: true,
+            status: true,
             route: {
               select: {
                 id: true,
@@ -195,9 +200,6 @@ export class TripService {
                 },
               },
             },
-            tripDate: true,
-            driverId: true,
-            status: true,
             feedbacks: true,
             bookings: true,
           },
@@ -212,6 +214,63 @@ export class TripService {
         totalPages: Math.ceil(total / perPage),
         trips,
       };
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof HttpException) throw error;
+      if (error instanceof Error) throw error;
+      throw new Error('internal server error');
+    }
+  }
+
+  async searchTrip(body: SearchTripDto) {
+    try {
+      const { tripDate, routeId } = body;
+      const date = new Date(tripDate);
+
+      const trips = await this.prisma.trip.findMany({
+        where: {
+          OR: [
+            { routeId: routeId },
+            { tripDate: { gte: startOfDay(date), lte: endOfDay(date) } },
+          ],
+        },
+        select: {
+          id: true,
+          tripDate: true,
+          driverId: true,
+          status: true,
+          route: {
+            select: {
+              id: true,
+              departure: true,
+              destination: true,
+              distanceKm: true,
+              estimatedDuration: true,
+            },
+          },
+          buses: {
+            select: {
+              id: true,
+              busNumber: true,
+              capacity: true,
+              type: true,
+              status: true,
+              seats: {
+                select: {
+                  id: true,
+                  seatNumber: true,
+                  isAvailable: true,
+                },
+              },
+            },
+          },
+
+          feedbacks: true,
+          bookings: true,
+        },
+      });
+
+      return trips;
     } catch (error) {
       this.logger.error(error);
       if (error instanceof HttpException) throw error;

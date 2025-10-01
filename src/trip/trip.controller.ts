@@ -14,6 +14,7 @@ import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
 import { TripQueryDto } from './dto/trip-query.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { SearchTripDto } from './dto/search-trip-query.dto';
 
 @Controller('trip')
 export class TripController {
@@ -34,6 +35,11 @@ export class TripController {
   @Get()
   findAll(@Query() query: TripQueryDto) {
     return this.tripService.findAll(query);
+  }
+
+  @Get('/search')
+  search(@Body() body: SearchTripDto) {
+    return this.tripService.searchTrip(body);
   }
 
   @Get(':id')
