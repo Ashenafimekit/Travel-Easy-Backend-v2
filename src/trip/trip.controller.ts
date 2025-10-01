@@ -37,7 +37,7 @@ export class TripController {
     return this.tripService.findAll(query);
   }
 
-  @Get('/search')
+  @Post('/search')
   search(@Body() body: SearchTripDto) {
     return this.tripService.searchTrip(body);
   }

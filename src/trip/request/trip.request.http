@@ -40,7 +40,7 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 ### search trip with routeId and tripDate
-GET {{baseUrl}}/trip/search
+POST  {{baseUrl}}/trip/search
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
