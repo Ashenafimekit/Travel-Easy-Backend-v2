@@ -231,7 +231,7 @@ export class TripService {
 
       const trips = await this.prisma.trip.findMany({
         where: {
-          OR: [
+          AND: [
             { routeId: routeId },
             { tripDate: { gte: startOfDay(date), lte: endOfDay(date) } },
           ],
