@@ -37,9 +37,14 @@ export class TripController {
     return this.tripService.findAll(query);
   }
 
-  @Post('/search')
-  search(@Body() body: SearchTripDto) {
-    return this.tripService.searchTrip(body);
+  @Post('/search-trip-with-route')
+  searchWithRoute(@Body() body: { routeId: string }) {
+    return this.tripService.searchTripWithRoute(body);
+  }
+
+  @Post('/search-trip-with-date-and-route')
+  searchWithDateAndRoute(@Body() body: SearchTripDto) {
+    return this.tripService.searchTripWithDateAndRoute(body);
   }
 
   @Get(':id')

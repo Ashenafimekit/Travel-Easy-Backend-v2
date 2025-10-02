@@ -224,7 +224,59 @@ export class TripService {
     }
   }
 
-  async searchTrip(body: SearchTripDto) {
+  async searchTripWithRoute(body: { routeId: string }) {
+    try {
+      const { routeId } = body;
+
+      const trips = await this.prisma.trip.findMany({
+        where: { routeId: routeId },
+        select: {
+          id: true,
+          tripDate: true,
+          driverId: true,
+          status: true,
+          route: {
+            select: {
+              id: true,
+              departure: true,
+              destination: true,
+              distanceKm: true,
+              estimatedDuration: true,
+              price: true,
+            },
+          },
+          buses: {
+            select: {
+              id: true,
+              busNumber: true,
+              capacity: true,
+              type: true,
+              status: true,
+              seats: {
+                select: {
+                  id: true,
+                  seatNumber: true,
+                  isAvailable: true,
+                },
+              },
+            },
+          },
+
+          feedbacks: true,
+          bookings: true,
+        },
+      });
+
+      return trips;
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof HttpException) throw error;
+      if (error instanceof Error) throw error;
+      throw new Error('internal server error');
+    }
+  }
+
+  async searchTripWithDateAndRoute(body: SearchTripDto) {
     try {
       const { tripDate, routeId } = body;
       const date = new Date(tripDate);
