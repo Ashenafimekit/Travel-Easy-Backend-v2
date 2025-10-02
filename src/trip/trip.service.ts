@@ -102,6 +102,7 @@ export class TripService {
                 destination: true,
                 distanceKm: true,
                 estimatedDuration: true,
+                price: true,
               },
             },
             buses: {
@@ -182,6 +183,7 @@ export class TripService {
                 destination: true,
                 distanceKm: true,
                 estimatedDuration: true,
+                price: true,
               },
             },
             buses: {
@@ -246,6 +248,7 @@ export class TripService {
               destination: true,
               distanceKm: true,
               estimatedDuration: true,
+              price: true,
             },
           },
           buses: {
