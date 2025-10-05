@@ -90,10 +90,15 @@ export class TripService {
 
       all = all ?? false;
 
+      const currentDate = new Date();
+
       if (all) {
         const trips = await this.prisma.trip.findMany({
           orderBy: { [sortField]: sortOrder },
-          where: { deletedAt: null },
+          where: {
+            deletedAt: null,
+            tripDate: { gte: startOfDay(currentDate) },
+          },
           include: {
             route: {
               select: {
@@ -135,6 +140,7 @@ export class TripService {
 
       const where: Prisma.TripWhereInput = {
         deletedAt: null,
+        tripDate: { gte: startOfDay(currentDate) },
       };
 
       if (search) {
@@ -228,8 +234,10 @@ export class TripService {
     try {
       const { routeId } = body;
 
+      const currentDate = new Date();
+
       const trips = await this.prisma.trip.findMany({
-        where: { routeId: routeId },
+        where: { routeId: routeId, tripDate: { gte: startOfDay(currentDate) } },
         select: {
           id: true,
           tripDate: true,
@@ -336,7 +344,11 @@ export class TripService {
 
   async findOne(id: string) {
     try {
-      const trip = await this.prisma.trip.findUnique({ where: { id: id } });
+      const currentDate = new Date();
+
+      const trip = await this.prisma.trip.findUnique({
+        where: { id: id, tripDate: { gte: startOfDay(currentDate) } },
+      });
       if (!trip) throw new HttpException('Trip not found', 404);
       return trip;
     } catch (error) {
@@ -353,8 +365,10 @@ export class TripService {
       const checkTrip = await this.findOne(id);
       if (!checkTrip) throw new HttpException('Trip not found', 404);
 
+      const currentDate = new Date();
+
       const trip = await this.prisma.trip.update({
-        where: { id: id },
+        where: { id: id, tripDate: { gte: startOfDay(currentDate) } },
         data: {
           ...tripData,
           ...(buses !== undefined && {
@@ -379,8 +393,10 @@ export class TripService {
 
   async remove(id: string) {
     try {
+      const currentDate = new Date();
+
       const trip = await this.prisma.trip.update({
-        where: { id: id },
+        where: { id: id, tripDate: { gte: startOfDay(currentDate) } },
         data: { deletedAt: new Date() },
       });
       if (!trip) throw new HttpException('Trip not found', 404);
