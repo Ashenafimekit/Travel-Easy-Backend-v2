@@ -29,7 +29,7 @@ Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 
-### search trip with id 
+### search booking with id 
 GET  {{baseUrl}}/booking/cmfco83fg0479cppjcx1lmzut
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}

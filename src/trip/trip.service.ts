@@ -348,6 +348,41 @@ export class TripService {
 
       const trip = await this.prisma.trip.findUnique({
         where: { id: id, tripDate: { gte: startOfDay(currentDate) } },
+        select: {
+          id: true,
+          tripDate: true,
+          driverId: true,
+          status: true,
+          route: {
+            select: {
+              id: true,
+              departure: true,
+              destination: true,
+              distanceKm: true,
+              estimatedDuration: true,
+              price: true,
+            },
+          },
+          buses: {
+            select: {
+              id: true,
+              busNumber: true,
+              capacity: true,
+              type: true,
+              status: true,
+              seats: {
+                select: {
+                  id: true,
+                  seatNumber: true,
+                  isAvailable: true,
+                },
+              },
+            },
+          },
+
+          feedbacks: true,
+          bookings: true,
+        },
       });
       if (!trip) throw new HttpException('Trip not found', 404);
       return trip;
