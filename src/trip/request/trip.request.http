@@ -48,14 +48,26 @@ Cookie: jwtToken={{jwtToken}}
     "routeId" : "cmfxpliu6040ycphdekzp3d82"
 }
 
-### search trip with routeId and tripDate
-POST  {{baseUrl}}/trip/search-trip-with-date-and-route
+### search one way trip
+POST  {{baseUrl}}/trip/one-way-trip
 Content-Type: application/json
 Cookie: jwtToken={{jwtToken}}
 
 {
     "routeId" : "cmfxpliu6040ycphdekzp3d82",
     "tripDate" : "2025-10-09"
+}
+
+
+### search round trip
+POST  {{baseUrl}}/trip/round-trip
+Content-Type: application/json
+Cookie: jwtToken={{jwtToken}}
+
+{
+    "routeId" : "cmgrxg68u040scp9x2iu06iou",
+    "departureDate" : "2025-10-21",
+    "returnDate" : "2025-10-23"
 }
 
 ### search trip with id 

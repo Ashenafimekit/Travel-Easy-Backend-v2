@@ -5,8 +5,9 @@ import { UpdateTripDto } from './dto/update-trip.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma, Trip } from '@prisma/client';
 import { TripQueryDto } from './dto/trip-query.dto';
-import { SearchTripDto } from './dto/search-trip-query.dto';
+import { OneWayTripDto } from './dto/one-way-trip-query.dto';
 import { endOfDay, startOfDay } from 'date-fns';
+import { RoundTripDto } from './dto/round-trip-query.dto';
 
 @Injectable()
 export class TripService {
@@ -284,7 +285,7 @@ export class TripService {
     }
   }
 
-  async searchTripWithDateAndRoute(body: SearchTripDto) {
+  async SearchOneWayTrip(body: OneWayTripDto) {
     try {
       const { tripDate, routeId } = body;
       const date = new Date(tripDate);
@@ -294,6 +295,77 @@ export class TripService {
           AND: [
             { routeId: routeId },
             { tripDate: { gte: startOfDay(date), lte: endOfDay(date) } },
+          ],
+        },
+        select: {
+          id: true,
+          tripDate: true,
+          driverId: true,
+          status: true,
+          route: {
+            select: {
+              id: true,
+              departure: true,
+              destination: true,
+              distanceKm: true,
+              estimatedDuration: true,
+              price: true,
+            },
+          },
+          buses: {
+            select: {
+              id: true,
+              busNumber: true,
+              capacity: true,
+              type: true,
+              status: true,
+              seats: {
+                select: {
+                  id: true,
+                  seatNumber: true,
+                  isAvailable: true,
+                },
+              },
+            },
+          },
+
+          feedbacks: true,
+          bookings: true,
+        },
+      });
+
+      return trips;
+    } catch (error) {
+      this.logger.error(error);
+      if (error instanceof HttpException) throw error;
+      if (error instanceof Error) throw error;
+      throw new Error('internal server error');
+    }
+  }
+
+  async searchRoundTrip(body: RoundTripDto) {
+    try {
+      const { departureDate, returnDate, routeId } = body;
+      console.log('🚀 ~ TripService ~ searchRoundTrip ~ body:', body);
+      const DepartureDate = new Date(departureDate);
+      const ReturnDate = new Date(returnDate);
+
+      const trips = await this.prisma.trip.findMany({
+        where: {
+          routeId,
+          OR: [
+            {
+              tripDate: {
+                gte: startOfDay(DepartureDate),
+                lte: endOfDay(DepartureDate),
+              },
+            },
+            {
+              tripDate: {
+                gte: startOfDay(ReturnDate),
+                lte: endOfDay(ReturnDate),
+              },
+            },
           ],
         },
         select: {

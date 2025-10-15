@@ -14,7 +14,8 @@ import { CreateTripDto } from './dto/create-trip.dto';
 import { UpdateTripDto } from './dto/update-trip.dto';
 import { TripQueryDto } from './dto/trip-query.dto';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
-import { SearchTripDto } from './dto/search-trip-query.dto';
+import { OneWayTripDto } from './dto/one-way-trip-query.dto';
+import { RoundTripDto } from './dto/round-trip-query.dto';
 
 @Controller('trip')
 export class TripController {
@@ -42,9 +43,14 @@ export class TripController {
     return this.tripService.searchTripWithRoute(body);
   }
 
-  @Post('/search-trip-with-date-and-route')
-  searchWithDateAndRoute(@Body() body: SearchTripDto) {
-    return this.tripService.searchTripWithDateAndRoute(body);
+  @Post('/one-way-trip')
+  searchWithDateAndRoute(@Body() body: OneWayTripDto) {
+    return this.tripService.SearchOneWayTrip(body);
+  }
+
+  @Post('/round-trip')
+  searchRoundTrip(@Body() body: RoundTripDto) {
+    return this.tripService.searchRoundTrip(body);
   }
 
   @Get(':id')
